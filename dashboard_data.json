@@ -1,0 +1,823 @@
+{
+  "generated_at": "2026-06-16 19:24:03",
+  "current_status": [
+    {
+      "hostname": "Meridian-Router",
+      "ip_address": "192.168.10.1",
+      "department": "IT Administration",
+      "vlan": 10,
+      "status": "Online",
+      "response_ms": 7,
+      "checked_at": "2026-06-16 16:51:11"
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "ip_address": "192.168.10.10",
+      "department": "IT Administration",
+      "vlan": 10,
+      "status": "Online",
+      "response_ms": 12,
+      "checked_at": "2026-06-16 16:51:11"
+    },
+    {
+      "hostname": "Finance-PC",
+      "ip_address": "192.168.20.10",
+      "department": "Finance",
+      "vlan": 20,
+      "status": "Online",
+      "response_ms": 7,
+      "checked_at": "2026-06-16 16:51:11"
+    },
+    {
+      "hostname": "Ops-PC",
+      "ip_address": "192.168.30.10",
+      "department": "Operations",
+      "vlan": 30,
+      "status": "Online",
+      "response_ms": 7,
+      "checked_at": "2026-06-16 16:51:11"
+    },
+    {
+      "hostname": "Server",
+      "ip_address": "192.168.40.10",
+      "department": "Servers",
+      "vlan": 40,
+      "status": "Online",
+      "response_ms": 9,
+      "checked_at": "2026-06-16 16:51:11"
+    },
+    {
+      "hostname": "Guest-PC",
+      "ip_address": "192.168.50.10",
+      "department": "Guest",
+      "vlan": 50,
+      "status": "Online",
+      "response_ms": 3,
+      "checked_at": "2026-06-16 16:51:11"
+    }
+  ],
+  "uptime": [
+    {
+      "hostname": "Meridian-Router",
+      "department": "IT Administration",
+      "uptime_pct": 100.0,
+      "avg_response_ms": 6.708333333333333
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "department": "IT Administration",
+      "uptime_pct": 100.0,
+      "avg_response_ms": 7.083333333333333
+    },
+    {
+      "hostname": "Finance-PC",
+      "department": "Finance",
+      "uptime_pct": 91.67,
+      "avg_response_ms": 6.818181818181818
+    },
+    {
+      "hostname": "Ops-PC",
+      "department": "Operations",
+      "uptime_pct": 100.0,
+      "avg_response_ms": 5.125
+    },
+    {
+      "hostname": "Server",
+      "department": "Servers",
+      "uptime_pct": 87.5,
+      "avg_response_ms": 6.761904761904762
+    },
+    {
+      "hostname": "Guest-PC",
+      "department": "Guest",
+      "uptime_pct": 100.0,
+      "avg_response_ms": 6.0
+    }
+  ],
+  "incidents": [
+    {
+      "hostname": "IT-Admin-PC",
+      "department": "IT Administration",
+      "started_at": "2026-06-16 14:51:11",
+      "resolved_at": "2026-06-16 15:51:11",
+      "description": "IT-Admin-PC had 100% packet loss to all destinations including default gateway.",
+      "resolution": "Root cause: Fa0/2 on Dept-Switch was assigned to VLAN 40 (Servers) instead of VLAN 10 (IT-Admin). Fixed by reassigning port to correct VLAN. Verified with successful ping.",
+      "status": "Resolved"
+    },
+    {
+      "hostname": "Finance-PC",
+      "department": "Finance",
+      "started_at": "2026-06-16 11:51:11",
+      "resolved_at": "2026-06-16 12:51:11",
+      "description": "Finance-PC went offline during business hours.",
+      "resolution": "User had accidentally unplugged the network cable. Reconnected and verified connectivity.",
+      "status": "Resolved"
+    },
+    {
+      "hostname": "Server",
+      "department": "Servers",
+      "started_at": "2026-06-16 05:51:11",
+      "resolved_at": "2026-06-16 07:51:11",
+      "description": "Server not responding to ping. Uptime monitor auto-created incident.",
+      "resolution": "Server rebooted after scheduled maintenance window. Host came back online automatically.",
+      "status": "Resolved"
+    }
+  ],
+  "response_history": [
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-15 17:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-15 17:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-15 17:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-15 17:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-15 17:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-15 17:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-15 18:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-15 18:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-15 18:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-15 18:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-15 18:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-15 18:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-15 19:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-15 19:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-15 19:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-15 19:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-15 19:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-15 19:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-15 20:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-15 20:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-15 20:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-15 20:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-15 20:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-15 20:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-15 21:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-15 21:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-15 21:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-15 21:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-15 21:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-15 21:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-15 22:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-15 22:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-15 22:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-15 22:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-15 22:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-15 22:51:11",
+      "response_ms": 10
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-15 23:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-15 23:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-15 23:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-15 23:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-15 23:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-15 23:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 00:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 00:51:11",
+      "response_ms": 10
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 00:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 00:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 00:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 00:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 01:51:11",
+      "response_ms": 10
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 01:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 01:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 01:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 01:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 01:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 02:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 02:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 02:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 02:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 02:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 02:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 03:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 03:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 03:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 03:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 03:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 03:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 04:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 04:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 04:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 04:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 04:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 04:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 05:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 05:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 05:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 05:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 05:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 06:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 06:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 06:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 06:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 06:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 07:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 07:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 07:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 07:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 07:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 08:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 08:51:11",
+      "response_ms": 8
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 08:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 08:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 08:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 08:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 09:51:11",
+      "response_ms": 3
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 09:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 09:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 09:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 09:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 09:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 10:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 10:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 10:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 10:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 10:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 10:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 11:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 11:51:11",
+      "response_ms": 10
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 11:51:11",
+      "response_ms": 1
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 11:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 11:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 12:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 12:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 12:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 12:51:11",
+      "response_ms": 10
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 12:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 13:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 13:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 13:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 13:51:11",
+      "response_ms": 10
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 13:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 13:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 14:51:11",
+      "response_ms": 11
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 14:51:11",
+      "response_ms": 5
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 14:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 14:51:11",
+      "response_ms": 2
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 14:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 14:51:11",
+      "response_ms": 10
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 15:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 15:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 15:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 15:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 15:51:11",
+      "response_ms": 6
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 15:51:11",
+      "response_ms": 4
+    },
+    {
+      "hostname": "Meridian-Router",
+      "checked_at": "2026-06-16 16:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "IT-Admin-PC",
+      "checked_at": "2026-06-16 16:51:11",
+      "response_ms": 12
+    },
+    {
+      "hostname": "Finance-PC",
+      "checked_at": "2026-06-16 16:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Ops-PC",
+      "checked_at": "2026-06-16 16:51:11",
+      "response_ms": 7
+    },
+    {
+      "hostname": "Server",
+      "checked_at": "2026-06-16 16:51:11",
+      "response_ms": 9
+    },
+    {
+      "hostname": "Guest-PC",
+      "checked_at": "2026-06-16 16:51:11",
+      "response_ms": 3
+    }
+  ]
+}
