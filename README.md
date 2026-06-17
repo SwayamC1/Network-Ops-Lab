@@ -130,6 +130,20 @@ I chose Grafana because it's what real network and DevOps teams use for operatio
 | Technical documentation | /docs folder |
 
 ---
+## 🗄️ SQL Server vs SQLite — Why Both Exist
+
+The operational monitor (`monitor.py`) and local dashboard (`dashboard.py`) are built for **SQL Server** using pyodbc. This is the production setup — it demonstrates real DBA work: schema design, user roles, backup/restore, and parameterized queries.
+
+For public demo hosting, I included a separate SQLite database (`meridian_ops.db`) seeded with 24 hours of simulated monitoring data. This lets anyone view the Grafana dashboard without needing access to my local SQL Server instance.
+
+**The SQL Server work is what matters for the resume.** The SQLite version exists purely so the live dashboard has data to display.
+
+| Component | Database | Purpose |
+|---|---|---|
+| `monitor.py` | SQL Server | Production monitor — logs real ping results |
+| `dashboard.py` | SQL Server | Local dashboard — reads from SQL Server |
+| `seed_sqlite.py` | SQLite | Seeds demo data for public Grafana dashboard |
+| `dashboard_data.json` | — | Exported from SQLite, read by Grafana Infinity |
 
 ## Local Setup
 
@@ -140,8 +154,11 @@ python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
-
-Create a `.env` file:
+Create a `.env` file with your SQL Server credentials:
+DB_SERVER=localhost
+DB_NAME=MeridianOps
+DB_USER=NetworkMonitor
+DB_PASSWORD=<password>
 
 Set up the database in SSMS by running `SQL/schema.sql` then `SQL/security_roles.sql`. Then:
 
