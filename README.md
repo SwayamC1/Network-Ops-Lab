@@ -4,14 +4,14 @@
 
 I built this project to fill the biggest gap on my resume: I was applying for Network Admin and DBA roles but had no hands-on infrastructure work to show. This lab is my answer to that. It's not a class assignment — I designed it myself to demonstrate the exact skills those job postings ask for.
 
-[![Grafana](https://img.shields.io/badge/Grafana-Live%20Dashboard-orange?logo=grafana)](https://tealjeep3109.grafana.net/goto/s8zz2q?orgId=stacks-1693850)
+[![Grafana](https://img.shields.io/badge/Grafana-Live%20Dashboard-orange?logo=grafana)](https://tealjeep3109.grafana.net/public-dashboards/2fe1661bb8c7468d90b36d95464d0591)
 [![Python](https://img.shields.io/badge/Python-3.12+-blue?logo=python)](https://python.org)
 [![SQL Server](https://img.shields.io/badge/SQL%20Server-Developer-red?logo=microsoftsqlserver)](https://microsoft.com/sql-server)
 
 ---
 
 ## Live Dashboard
-**[→ Meridian Network Operations Center on Grafana](https://tealjeep3109.grafana.net/goto/s8zz2q?orgId=stacks-1693850)**
+**[→ Meridian Network Operations Center on Grafana](https://tealjeep3109.grafana.net/public-dashboards/2fe1661bb8c7468d90b36d95464d0591)**
 
 ---
 
