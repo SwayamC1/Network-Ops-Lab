@@ -118,7 +118,7 @@ WHERE i.resolved_at IS NULL;
 GO
 
 -- ─────────────────────────────────────────
--- SEED DATA
+--- SEED DATA
 -- ─────────────────────────────────────────
 
 INSERT INTO hosts (hostname, ip_address, department, vlan) VALUES
