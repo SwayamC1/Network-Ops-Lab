@@ -13,8 +13,8 @@ GO
 -- ─────────────────────────────────────────
 
 -- NetworkMonitor: used by the Python monitoring script
-CREATE LOGIN NetworkMonitor WITH PASSWORD = 'Monitor@2026!';
-CREATE USER  NetworkMonitor FOR LOGIN NetworkMonitor;
+CREATE LOGIN NetworkMonitor WITH PASSWORD = '<SECREAT_PASSWORD>';
+CREATE LOGIN ReadOnlyUser   WITH PASSWORD = '<SECREAT_PASSWORD>';
 
 -- ReadOnlyUser: used by dashboard viewers and reporting
 CREATE LOGIN ReadOnlyUser WITH PASSWORD = 'Readonly@2026!';
