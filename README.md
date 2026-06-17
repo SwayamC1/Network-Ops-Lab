@@ -5,12 +5,12 @@
 
 [![Python](https://img.shields.io/badge/Python-3.12+-blue?logo=python)](https://python.org)
 [![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-red?logo=microsoftsqlserver)](https://microsoft.com/sql-server)
-[![Grafana](https://img.shields.io/badge/Grafana-Live%20Dashboard-orange?logo=grafana)](https://tealjeep3109.grafana.net/d/sw8jw9x/meridian-network-operations-center)
+**[![Grafana](https://img.shields.io/badge/Grafana-Live%20Dashboard-orange?logo=grafana)](https://tealjeep3109.grafana.net/d/sw8jw9x/meridian-network-operations-center)**
 
 ---
 
 ## 🔴 Live Dashboard
-**[View the Meridian Network Operations Center →](https://tealjeep3109.grafana.net/goto/s8zz2q?orgId=stacks-1693850)**
+****[View the Meridian Network Operations Center →](https://tealjeep3109.grafana.net/goto/s8zz2q?orgId=stacks-1693850)****
 
 ---
 
