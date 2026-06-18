@@ -2,35 +2,41 @@
 -- Meridian Solutions | Network Operations Database
 -- File: security_roles.sql
 -- Description: Database users, roles, and least-privilege permissions
--- Author: Swayam Chopra
+-- Author: Swayam Chopra | UMBC MIS 2026
+-- Note: Credentials are stored in .env and excluded from GitHub
 -- ============================================================
 
 USE MeridianOps;
 GO
 
 -- ─────────────────────────────────────────
--- LOGINS & USERS
+-- LOGINS (server-level)
 -- ─────────────────────────────────────────
 
--- NetworkMonitor: used by the Python monitoring script
-CREATE LOGIN NetworkMonitor WITH PASSWORD = '<SECREAT_PASSWORD>';
-CREATE LOGIN ReadOnlyUser   WITH PASSWORD = '<SECREAT_PASSWORD>';
-
--- ReadOnlyUser: used by dashboard viewers and reporting
-CREATE LOGIN ReadOnlyUser WITH PASSWORD = 'Readonly@2026!';
-CREATE USER  ReadOnlyUser FOR LOGIN ReadOnlyUser;
+CREATE LOGIN NetworkMonitor WITH PASSWORD = '<REPLACE_WITH_SECURE_PASSWORD>';
+CREATE LOGIN ReadOnlyUser   WITH PASSWORD = '<REPLACE_WITH_SECURE_PASSWORD>';
 GO
 
 -- ─────────────────────────────────────────
--- PERMISSIONS  (least privilege)
+-- DATABASE USERS (mapped to logins)
 -- ─────────────────────────────────────────
 
--- NetworkMonitor can read hosts and write ping results and incidents
-GRANT SELECT, INSERT ON uptime_log TO NetworkMonitor;
-GRANT SELECT         ON hosts      TO NetworkMonitor;
-GRANT SELECT, INSERT ON incidents  TO NetworkMonitor;
+CREATE USER NetworkMonitor FOR LOGIN NetworkMonitor;
+CREATE USER ReadOnlyUser   FOR LOGIN ReadOnlyUser;
+GO
 
--- ReadOnlyUser can only read the three reporting views
+-- ─────────────────────────────────────────
+-- PERMISSIONS (least privilege)
+-- ─────────────────────────────────────────
+
+-- NetworkMonitor: used by monitor.py
+-- Can read hosts and write ping results and incidents
+GRANT SELECT         ON hosts      TO NetworkMonitor;
+GRANT SELECT, INSERT ON uptime_log TO NetworkMonitor;
+GRANT SELECT, INSERT, UPDATE ON incidents TO NetworkMonitor;
+
+-- ReadOnlyUser: used by dashboard and reporting
+-- Can only read the three views — no access to raw tables
 GRANT SELECT ON v_host_uptime    TO ReadOnlyUser;
 GRANT SELECT ON v_current_status TO ReadOnlyUser;
 GRANT SELECT ON v_open_incidents TO ReadOnlyUser;
