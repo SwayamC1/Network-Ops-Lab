@@ -155,10 +155,15 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 Create a `.env` file with your SQL Server credentials:
+
+```
 DB_SERVER=localhost
 DB_NAME=MeridianOps
 DB_USER=NetworkMonitor
-DB_PASSWORD=<password>
+DB_PASSWORD=<your_password>
+```
+
+Credentials are stored locally and excluded from GitHub via `.gitignore`.
 
 Set up the database in SSMS by running `SQL/schema.sql` then `SQL/security_roles.sql`. Then:
 
