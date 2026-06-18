@@ -66,17 +66,28 @@ Cisco Packet Tracer is the industry-standard simulation tool used in CCNA traini
 
 ## Part 2 — Python Network Monitor
 
-`monitor.py` connects to the SQL Server database and pings every active host on a 60-second loop. When a host stops responding, it automatically opens an incident record. When it comes back online, it resolves the incident.
+`monitor.py` connects to the SQL Server database and checks every active host on a 60-second loop. For each host it runs two checks:
+
+**1. ICMP ping** — confirms the host is reachable on the network
+**2. TCP port checks** — confirms key services are actually running
+
+| Host | Ports Checked |
+|---|---|
+| Meridian-Router | SSH (22) |
+| IT-Admin-PC | RDP (3389) |
+| Finance-PC | RDP (3389) |
+| Ops-PC | RDP (3389) |
+| Server | HTTP (80), HTTPS (443), SQL Server (1433) |
+| Guest-PC | HTTP (80) |
+
+When a host stops responding, the script automatically opens an incident record in SQL Server. When it comes back online, the incident is auto-resolved. Port failures are logged as notes on the uptime record.
 
 ```python
-# Core loop — runs every 60 seconds
-for host in hosts:
-    is_online, response_ms = ping_host(ip)
-    log_result(conn, host_id, is_online, response_ms)
-    if not is_online:
-        open_incident(conn, host_id, hostname)
-    else:
-        resolve_incident(conn, host_id, hostname)
+# Each host gets ICMP ping + TCP port checks
+is_online, response_ms = ping_host(ip)
+for port, service in HOST_PORTS.get(hostname, []):
+    is_open = check_port(ip, port) if is_online else False
+log_result(conn, host_id, is_online, response_ms, notes)
 ```
 
 ---
