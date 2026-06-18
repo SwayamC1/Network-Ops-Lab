@@ -16,25 +16,17 @@
 - All other hosts on Dept-Switch were unaffected
 
 ### Diagnosis
-Ran `show ip interface brief` on Meridian-Router — all interfaces up with correct IPs. Problem was not the router.
+Ran `show ip interface brief` on Meridian-Router — all interfaces showed up with correct IPs. Problem was not the router.
 
-Ran `show vlan brief` on Dept-Switch:
+Ran `show vlan brief` on Dept-Switch and found:
 
-
-IT-Admin-PC was physically connected to Fa0/2 but the port was assigned to VLAN 40 (Servers) instead of VLAN 10 (IT-Admin). Traffic from the PC was going to the wrong VLAN and being dropped.
+IT-Admin-PC was physically connected to Fa0/2 but the port was assigned to VLAN 40 (Servers) instead of VLAN 10 (IT-Admin).
 
 ### Root Cause
-During initial switch configuration, a console session reset mid-configuration. The VLAN assignment for Fa0/2 was saved incorrectly as VLAN 40 instead of VLAN 10.
+During initial switch configuration, a console session reset mid-configuration. The VLAN assignment for Fa0/2 was saved incorrectly as VLAN 40 instead of VLAN 10, placing IT-Admin-PC in the wrong network segment.
 
 ### Fix
 
-
-### Validation
-Ran `show vlan brief` — Fa0/2 now correctly listed under VLAN 10.
-Ran ping from IT-Admin-PC:
-- `ping 192.168.10.1` → 4/4 replies ✅
-- `ping 192.168.20.10` → 4/4 replies ✅
-- `ping 192.168.40.10` → 4/4 replies ✅
 
 **Time to resolve:** 15 minutes
 **Status:** Resolved ✅
@@ -45,18 +37,19 @@ Ran ping from IT-Admin-PC:
 
 **Date:** 2026-06-16
 **Severity:** Informational
-**Purpose:** Verify ACL BLOCK-GUEST is working correctly
+**Purpose:** Verify ACL BLOCK-GUEST is enforcing the Guest → Server restriction
 
 ### Test
-From Guest-PC, tested two destinations:
-- `ping 192.168.40.10` (Server — should be blocked)
-- `ping 192.168.20.10` (Finance-PC — should be allowed)
+From Guest-PC command prompt, tested two destinations:
+- `ping 192.168.40.10` — Server (should be blocked by ACL)
+- `ping 192.168.20.10` — Finance-PC (should be allowed)
 
 ### Results
 
 
+
 ### Conclusion
-ACL is working as intended. Guest users are blocked from the Server VLAN (40) but can reach department VLANs. Security policy enforced correctly.
+ACL BLOCK-GUEST is working as designed. Guest users cannot reach the Server VLAN (40) but retain normal access to department VLANs. Security policy is enforced correctly at the router sub-interface level.
 
 **Status:** Verified ✅
 
@@ -67,26 +60,27 @@ ACL is working as intended. Guest users are blocked from the Server VLAN (40) bu
 **Date:** 2026-06-16
 **Severity:** Medium
 **Affected host:** Server (192.168.40.10)
-**Detection:** Python monitor auto-opened incident
+**Detection:** Python monitor auto-opened incident after consecutive failed pings
 
 ### Symptoms
-- Python monitor logged Server as offline
-- Incident auto-created in SQL Server incidents table
-- All other hosts remained online
+- Python monitor logged Server as offline for approximately 2 hours
+- Incident auto-created in SQL Server incidents table with timestamp
+- All other hosts remained online throughout
 
 ### Diagnosis
-Checked Dept-Switch and Server-Switch port assignments — both correct.
-Checked router sub-interface GigabitEthernet0/0/1 — up with correct IP (192.168.40.1).
-Determined host was intentionally taken offline for a scheduled maintenance window.
-Monitor had not been notified of the maintenance schedule, causing a false alert.
+Checked Server-Switch port assignment — Fa0/2 correctly assigned to VLAN 40. Checked router sub-interface GigabitEthernet0/0/1 — up with correct IP (192.168.40.1). Confirmed host was intentionally taken offline for a scheduled maintenance window. Monitor was not notified in advance, triggering a false alert.
 
 ### Root Cause
-No maintenance window notification process was in place. The monitoring script treated the planned downtime as an unplanned outage.
+No maintenance window notification process existed. The monitoring script correctly detected the outage but had no way to distinguish planned from unplanned downtime.
 
 ### Fix
-Server came back online after maintenance completed. Incident auto-resolved by the monitor when the next successful ping was logged.
+No configuration change required. Server came back online after maintenance completed and the Python monitor auto-resolved the incident on the next successful ping cycle.
 
-Added note to runbook: notify monitoring team before any planned maintenance to avoid false incident creation.
+Added the following note to the backup/restore runbook: notify the monitoring team before any planned maintenance window to prevent false incident creation.
+
+### Validation
 
 **Time to resolve:** 2 hours (planned maintenance window)
 **Status:** Resolved ✅
+
+
