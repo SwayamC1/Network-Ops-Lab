@@ -138,7 +138,9 @@ I chose Grafana because it's what real network and DevOps teams use for operatio
 | Database backup and restore | backup_restore_runbook.sql |
 | Role-based access control | security_roles.sql |
 | Grafana dashboard configuration | Live dashboard |
-| Technical documentation | /docs folder |
+| Technical documentation                | /docs folder                 |
+| Cisco show command outputs             | /configs folder              |
+| ACL verification testing               | /configs folder              |
 
 ---
 ## 🗄️ SQL Server vs SQLite — Why Both Exist
@@ -189,7 +191,13 @@ streamlit run streamlit/dashboard.py  # run the local Streamlit dashboard
 - [IP Addressing Plan](docs/ip_addressing_plan.md)
 - [Troubleshooting Log](docs/troubleshooting_log.md)
 - [Backup & Restore Runbook](SQL/backup_restore_runbook.sql)
+- [Demo Guide](DEMO.md)
 
+## Network Device Configs
+- [Router Show Commands](configs/router_show_commands.txt)
+- [Dept-Switch Show Commands](configs/dept_switch_show_commands.txt)
+- [Server-Switch Show Commands](configs/server_switch_show_commands.txt)
+- [ACL Verification](configs/acl_verification.txt)
 ---
 
 *Swayam Chopra · UMBC Information Systems '26 · [LinkedIn](https://linkedin.com/in/swayam-chopra100)*
