@@ -1,1 +1,84 @@
 
+```text
+=============================================================
+Meridian-Router — Sanitized Running Configuration
+Cisco ISR 4331 | Packet Tracer Lab
+Author: Swayam Chopra | UMBC MIS 2026
+=============================================================
+
+hostname Meridian-Router
+
+!
+! Router-on-a-stick connection to Dept-Switch
+!
+interface GigabitEthernet0/0/0
+ description Trunk to Dept-Switch Gig0/1
+ no ip address
+ duplex auto
+ speed auto
+ no shutdown
+
+interface GigabitEthernet0/0/0.10
+ description Gateway for VLAN 10 - IT-Admin
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+
+interface GigabitEthernet0/0/0.20
+ description Gateway for VLAN 20 - Finance
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+
+interface GigabitEthernet0/0/0.30
+ description Gateway for VLAN 30 - Operations
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+
+interface GigabitEthernet0/0/0.50
+ description Gateway for VLAN 50 - Guest
+ encapsulation dot1Q 50
+ ip address 192.168.50.1 255.255.255.0
+ ip access-group BLOCK-GUEST in
+
+!
+! Routed connection to Server-Switch access uplink
+!
+interface GigabitEthernet0/0/1
+ description Routed connection to Server-Switch Gig0/1
+ ip address 192.168.40.1 255.255.255.0
+ duplex auto
+ speed auto
+ no shutdown
+
+interface GigabitEthernet0/0/2
+ no ip address
+ shutdown
+
+!
+! ACL: Block Guest VLAN from reaching Server VLAN
+!
+ip access-list extended BLOCK-GUEST
+ deny ip 192.168.50.0 0.0.0.255 192.168.40.0 0.0.0.255
+ permit ip any any
+
+!
+! Directly connected networks:
+! VLAN 10 - 192.168.10.0/24
+! VLAN 20 - 192.168.20.0/24
+! VLAN 30 - 192.168.30.0/24
+! VLAN 40 - 192.168.40.0/24
+! VLAN 50 - 192.168.50.0/24
+!
+
+end
+
+=============================================================
+Configuration Summary:
+  G0/0/0      → trunk to Dept-Switch
+  G0/0/0.10   → VLAN 10 gateway, 192.168.10.1
+  G0/0/0.20   → VLAN 20 gateway, 192.168.20.1
+  G0/0/0.30   → VLAN 30 gateway, 192.168.30.1
+  G0/0/0.50   → VLAN 50 gateway, 192.168.50.1, ACL applied inbound
+  G0/0/1      → Server VLAN gateway, 192.168.40.1
+  BLOCK-GUEST → blocks Guest VLAN from Server VLAN
+=============================================================
+```
