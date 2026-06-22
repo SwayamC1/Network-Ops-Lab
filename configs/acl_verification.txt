@@ -1,0 +1,57 @@
+=============================================================
+ACL Verification — BLOCK-GUEST
+Meridian-Router | Packet Tracer Lab
+Author: Swayam Chopra | UMBC MIS 2026
+=============================================================
+
+--- ACL Configuration ---
+
+ip access-list extended BLOCK-GUEST
+ deny ip 192.168.50.0 0.0.0.255 192.168.40.0 0.0.0.255
+ permit ip any any
+
+Applied to: GigabitEthernet0/0/0.50 (Guest VLAN sub-interface) — inbound
+
+--- Purpose ---
+
+Blocks all traffic from Guest VLAN (192.168.50.0/24) destined
+for the Server VLAN (192.168.40.0/24). All other traffic is
+permitted. This prevents guest users from reaching internal
+servers while retaining access to department VLANs.
+
+--- Verification Tests ---
+
+Test 1: Guest-PC pings Server (should be BLOCKED)
+  Source:      192.168.50.10 (Guest-PC)
+  Destination: 192.168.40.10 (Server)
+  Command:     ping 192.168.40.10
+
+  Result:
+  Pinging 192.168.40.10 with 32 bytes of data:
+  Reply from 192.168.50.1: Destination host unreachable.
+  Reply from 192.168.50.1: Destination host unreachable.
+  Reply from 192.168.50.1: Destination host unreachable.
+  Reply from 192.168.50.1: Destination host unreachable.
+  Packets: Sent = 4, Received = 0, Lost = 4 (100% loss)
+  STATUS: BLOCKED ✅ — ACL working correctly
+
+Test 2: Guest-PC pings Finance-PC (should be ALLOWED)
+  Source:      192.168.50.10 (Guest-PC)
+  Destination: 192.168.20.10 (Finance-PC)
+  Command:     ping 192.168.20.10
+
+  Result:
+  Pinging 192.168.20.10 with 32 bytes of data:
+  Reply from 192.168.20.10: bytes=32 time<1ms TTL=127
+  Reply from 192.168.20.10: bytes=32 time<1ms TTL=127
+  Reply from 192.168.20.10: bytes=32 time<1ms TTL=127
+  Reply from 192.168.20.10: bytes=32 time<1ms TTL=127
+  Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+  STATUS: ALLOWED ✅ — ACL not blocking other VLANs
+
+--- Conclusion ---
+
+ACL BLOCK-GUEST correctly enforces the security policy:
+- Guest users CANNOT reach the Server VLAN (40)
+- Guest users CAN reach department VLANs (Finance, Operations, IT-Admin)
+- All other inter-VLAN traffic is unaffected
