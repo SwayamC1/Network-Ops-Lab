@@ -74,29 +74,44 @@ Cisco Packet Tracer is commonly used in CCNA training and network fundamentals l
 
 ## Part 2 — Python Network Monitor
 
-`monitor.py` connects to the SQL Server database and checks every active host on a 60-second loop. For each host it runs two checks:
+`monitor.py` connects to the SQL Server database and checks every active host on a 60-second loop. For each host, it runs two types of checks:
 
 **1. ICMP ping** — confirms the host is reachable on the network
-**2. TCP port checks** — confirms key services are actually running
+**2. TCP port checks** — confirms expected services are reachable on their assigned ports
 
-| Host | Ports Checked |
-|---|---|
-| Meridian-Router | SSH (22) |
-| IT-Admin-PC | RDP (3389) |
-| Finance-PC | RDP (3389) |
-| Ops-PC | RDP (3389) |
-| Server | HTTP (80), HTTPS (443), SQL Server (1433) |
-| Guest-PC | HTTP (80) |
+| Host            | Ports Checked                             |
+| --------------- | ----------------------------------------- |
+| Meridian-Router | SSH (22)                                  |
+| IT-Admin-PC     | RDP (3389)                                |
+| Finance-PC      | RDP (3389)                                |
+| Ops-PC          | RDP (3389)                                |
+| Server          | HTTP (80), HTTPS (443), SQL Server (1433) |
+| Guest-PC        | HTTP (80)                                 |
 
-When a host stops responding, the script automatically opens an incident record in SQL Server. When it comes back online, the incident is auto-resolved. Port failures are logged as notes on the uptime record.
+The monitor creates two types of incidents:
+
+| Incident Type    | Example                                                   | Meaning                                                    |
+| ---------------- | --------------------------------------------------------- | ---------------------------------------------------------- |
+| Host incident    | `HOST DOWN: Server is not responding to ping.`            | The device is unreachable                                  |
+| Service incident | `SERVICE DOWN: SQL Server port 1433 is closed on Server.` | The host is online, but an expected service is unavailable |
+
+When a host stops responding, the script automatically opens a host-level incident in SQL Server. When the host comes back online, the incident is auto-resolved.
+
+When a host is online but an expected TCP port is closed, the script opens a service-level incident. When the port becomes reachable again, the service incident is auto-resolved.
 
 ```python
 # Each host gets ICMP ping + TCP port checks
 is_online, response_ms = ping_host(ip)
+handle_host_incident(conn, host_id, hostname, is_online)
+
 for port, service in HOST_PORTS.get(hostname, []):
     is_open = check_port(ip, port) if is_online else False
+    if is_online:
+        handle_service_incident(conn, host_id, hostname, service, port, is_open)
+
 log_result(conn, host_id, is_online, response_ms, notes)
 ```
+
 
 ---
 
@@ -107,7 +122,7 @@ I used **SQL Server Developer Edition** (free) and **SSMS** — the same tools u
 **Schema:**
 - `hosts` — every monitored device
 - `uptime_log` — one row per ping check per host
-- `incidents` — outage records with timestamps and resolution notes
+- `incidents` — host and service incident records with timestamps and resolution notes
 - `v_host_uptime` — view calculating uptime % per host
 - `v_current_status` — view showing each host's most recent status
 - `v_open_incidents` — view for unresolved incidents
