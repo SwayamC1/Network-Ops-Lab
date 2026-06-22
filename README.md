@@ -2,7 +2,7 @@
 
 **Cisco Packet Tracer · Python · SQL Server · Streamlit · Grafana**
 
-I built this project to fill the biggest gap on my resume: I was applying for Network Admin and DBA roles but had no hands-on infrastructure work to show. This lab is my answer to that. It's not a class assignment — I designed it myself to demonstrate the exact skills those job postings ask for.
+Designed a simulated small-business network operations environment to demonstrate VLAN segmentation, automated host monitoring, incident tracking, SQL Server administration, and dashboard reporting.
 
 [![Grafana](https://img.shields.io/badge/Grafana-Live%20Dashboard-orange?logo=grafana)](https://tealjeep3109.grafana.net/public-dashboards/2fe1661bb8c7468d90b36d95464d0591)
 [![Python](https://img.shields.io/badge/Python-3.12+-blue?logo=python)](https://python.org)
@@ -10,7 +10,7 @@ I built this project to fill the biggest gap on my resume: I was applying for Ne
 
 ---
 
-## Live Dashboard
+## Public Dashboard
 **[→ Meridian Network Operations Center on Grafana](https://tealjeep3109.grafana.net/public-dashboards/2fe1661bb8c7468d90b36d95464d0591)**
 
 ---
@@ -180,7 +180,7 @@ Set up the database in SSMS by running `SQL/schema.sql` then `SQL/security_roles
 
 ```bash
 python monitor.py       # start the network monitor
-streamlit run dashboard.py  # run the local Streamlit dashboard
+streamlit run streamlit/dashboard.py  # run the local Streamlit dashboard
 ```
 
 ---
