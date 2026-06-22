@@ -1,8 +1,8 @@
-# Network Operations & Monitoring Lab
+Network Operations & Monitoring Lab
 
-**Cisco Packet Tracer · Python · SQL Server · Streamlit · Grafana**
+Cisco Packet Tracer · Python · SQL Server · Streamlit · Grafana
 
-Designed a simulated small-business network operations environment to demonstrate VLAN segmentation, automated host monitoring, incident tracking, SQL Server administration, and dashboard reporting.
+Designed a simulated small-business network operations lab to demonstrate VLAN segmentation, inter-VLAN routing, ACL enforcement, automated host and service monitoring, SQL Server incident tracking, backup/restore procedures, and dashboard reporting.
 
 [![Grafana](https://img.shields.io/badge/Grafana-Live%20Dashboard-orange?logo=grafana)](https://tealjeep3109.grafana.net/public-dashboards/2fe1661bb8c7468d90b36d95464d0591)
 [![Python](https://img.shields.io/badge/Python-3.12+-blue?logo=python)](https://python.org)
@@ -10,20 +10,27 @@ Designed a simulated small-business network operations environment to demonstrat
 
 ---
 
-## Public Dashboard
+## Public Demo Dashboard
 **[→ Meridian Network Operations Center on Grafana](https://tealjeep3109.grafana.net/public-dashboards/2fe1661bb8c7468d90b36d95464d0591)**
+
+The public Grafana dashboard uses exported demo data so the project can be reviewed without requiring access to my local SQL Server instance. The production-style local setup uses SQL Server, where monitor.py writes uptime logs and incident records directly to the database.
 
 ---
 
-## What I Built
+What I Built
 
-The fictional company is **Meridian Solutions** — 25 employees across Finance, Operations, and IT Administration. I treated it like a real environment: designed the network, secured it, built monitoring tools around it, stored the operational data in a database, and documented everything the way a junior admin would on the job.
+The fictional company is Meridian Solutions, a small-business network environment with separate segments for IT Administration, Finance, Operations, Servers, and Guest access.
 
-**The four parts:**
-1. Designed and configured a segmented network in Cisco Packet Tracer (VLANs, inter-VLAN routing, ACLs)
-2. Wrote a Python script that pings every host every 60 seconds and logs results to SQL Server
-3. Set up SQL Server with a normalized schema, user roles, backup jobs, and a restore runbook
-4. Built a live Grafana dashboard that anyone can view showing host status, uptime %, and incidents
+I treated this project like a junior network operations/admin lab: I designed the network, segmented it with VLANs, enforced a Guest-to-Server access restriction, built a Python monitor, logged operational data to SQL Server, created incident tracking, documented troubleshooting steps, and built dashboard views for status reporting.
+
+The four main parts:
+
+Designed and configured a segmented network in Cisco Packet Tracer using VLANs, trunking, inter-VLAN routing, and ACLs
+Wrote a Python monitor that checks host reachability and service ports, then logs results to SQL Server
+Built a SQL Server database with normalized tables, reporting views, indexes, least-privilege users, and backup/restore procedures
+Created dashboard reporting using Streamlit locally and Grafana for a public demo view
+
+
 
 ---
 
@@ -35,16 +42,17 @@ The fictional company is **Meridian Solutions** — 25 employees across Finance,
 ### ACL Security Test — Guest VLAN Blocked from Server
 ![ACL Test](Screenshots/The%20Guest%20ping%20result.png)
 
-### Live Grafana NOC Dashboard
+### Public Grafana NOC Demo Dashboard
 ![Dashboard](Screenshots/Network-Lab-Monitor-Dashboard.png)
 
 ---
 
 ## Part 1 — Network Design (Cisco Packet Tracer)
 
-Cisco Packet Tracer is the industry-standard simulation tool used in CCNA training. I used it to build a topology I'd realistically see in a small office environment.
+Cisco Packet Tracer is commonly used in CCNA training and network fundamentals labs. I used it to build a realistic small-office topology with VLAN segmentation, inter-VLAN routing, trunking, and ACL-based access control.
 
 **Devices:** 1 Cisco ISR 4331 router, 2 Cisco 2960-24TT switches, 5 PCs
+
 
 **VLAN segmentation:**
 
@@ -114,14 +122,53 @@ All SQL files are in the `/SQL` folder.
 
 ---
 
-## Part 4 — Grafana Dashboard
+---
+## Part 4 — Dashboard Reporting
 
-I chose Grafana because it's what real network and DevOps teams use for operational monitoring — not a BI tool. The dashboard reads from `dashboard_data.json` hosted on GitHub using the Grafana Infinity plugin.
+The project includes two dashboard/reporting options:
 
-**Panels:**
-- Host status table with department, IP, response time, and online/offline state
-- Uptime % gauge per host with color thresholds (green ≥95%, yellow 80–95%, red <80%)
-- Incident log with descriptions and resolutions
+1. **Local Streamlit dashboard** — reads directly from SQL Server and shows current host status, uptime percentage, incident records, and response-time history
+2. **Public Grafana demo dashboard** — reads exported demo JSON data so the project can be reviewed publicly without requiring access to my local SQL Server environment
+
+I used Grafana for the public-facing demo because operational teams commonly use dashboarding tools to monitor infrastructure health, incident trends, and service availability.
+
+**Panels include:**
+
+* Host status table with department, IP address, response time, and online/offline state
+* Uptime percentage by host
+* Incident log with descriptions and resolution notes
+* Response-time history for monitored devices
+
+---
+
+## SQL Server vs SQLite — Why Both Exist
+
+The operational monitor (`monitor.py`) and local Streamlit dashboard (`dashboard.py`) are built for **SQL Server** using `pyodbc`. This is the production-style setup and demonstrates SQL Server schema design, user permissions, reporting views, backup/restore procedures, and parameterized queries.
+
+For public demo hosting, I included a separate SQLite database (`meridian_ops.db`) seeded with 24 hours of simulated monitoring data. This allows the public dashboard/demo files to be viewed without requiring access to my local SQL Server instance.
+
+---
+
+## Project Scope and Limitations
+
+This is a simulated network operations lab built for portfolio and resume demonstration. The network topology was created in Cisco Packet Tracer rather than on physical Cisco hardware.
+
+The local production-style setup uses SQL Server, `monitor.py`, and the Streamlit dashboard. The public Grafana dashboard uses exported demo data so recruiters and reviewers can view the project without needing my local database connection.
+
+This project is intended to demonstrate junior-level network operations skills, including network segmentation, access control verification, Python automation, SQL Server administration, incident tracking, backup/restore documentation, and technical troubleshooting.
+
+
+| Component             | Database   | Purpose                                                      |
+| --------------------- | ---------- | ------------------------------------------------------------ |
+| `monitor.py`          | SQL Server | Logs host reachability, service check results, and incidents |
+| `dashboard.py`        | SQL Server | Local Streamlit dashboard reading from SQL Server            |
+| `seed_sqlite.py`      | SQLite     | Seeds demo data for public dashboard review                  |
+| `dashboard_data.json` | —          | Exported demo data used by Grafana                           |
+
+---
+
+
+
 
 ---
 
@@ -137,7 +184,7 @@ I chose Grafana because it's what real network and DevOps teams use for operatio
 | SQL Server schema design | schema.sql |
 | Database backup and restore | backup_restore_runbook.sql |
 | Role-based access control | security_roles.sql |
-| Grafana dashboard configuration | Live dashboard |
+| Grafana dashboard configuration | Public demo dashboard |
 | Technical documentation                | /docs folder                 |
 | Cisco show command outputs             | /configs folder              |
 | ACL verification testing               | /configs folder              |
