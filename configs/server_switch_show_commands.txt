@@ -1,4 +1,4 @@
-```text
+
 =============================================================
 Server-Switch — Show Command Outputs
 Cisco 2960-24TT | Packet Tracer Lab
@@ -48,5 +48,5 @@ Port Assignments:
   Fa0/2  → VLAN 40 (Server)
   Gig0/1 → VLAN 40 access uplink to Meridian-Router G0/0/1
 =============================================================
-```
+
 
