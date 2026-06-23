@@ -124,19 +124,22 @@ def load_incidents():
     """)
 
 
+```python
 @st.cache_data(ttl=30)
 def load_uptime_history():
     return load_sql("""
         SELECT
-            h.hostname,
-            u.checked_at,
-            u.is_online,
-            u.response_ms
-        FROM dbo.uptime_log u
-        JOIN dbo.hosts h
-            ON h.host_id = u.host_id
-        ORDER BY u.checked_at ASC;
+            hostname,
+            department,
+            vlan,
+            checked_at,
+            is_online,
+            response_ms
+        FROM dbo.v_response_time_history
+        ORDER BY checked_at ASC;
     """)
+```
+
 
 
 # ─────────────────────────────────────────
