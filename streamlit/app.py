@@ -1,4 +1,3 @@
-```python
 # ============================================================
 # Meridian Solutions | Network Operations Dashboard
 # File: app.py
@@ -362,5 +361,3 @@ st.caption("Demo data simulates 24 hours of monitoring across 6 network hosts.")
 if st.button("🔄 Refresh"):
     st.cache_data.clear()
     st.rerun()
-```
-
