@@ -1,4 +1,3 @@
-```sql
 -- ============================================================
 -- Meridian Solutions | Network Operations Database
 -- File: security_roles.sql
@@ -76,9 +75,6 @@ GO
 GRANT SELECT ON dbo.hosts TO NetworkMonitor;
 GRANT INSERT ON dbo.uptime_log TO NetworkMonitor;
 GRANT SELECT, INSERT, UPDATE ON dbo.incidents TO NetworkMonitor;
-
--- Allows monitor.py to check for existing open incidents before creating duplicates.
-GRANT SELECT ON dbo.incidents TO NetworkMonitor;
 GO
 
 -- ============================================================
@@ -116,5 +112,4 @@ ORDER BY
     o.name,
     p.permission_name;
 GO
-```
 
