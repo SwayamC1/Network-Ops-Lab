@@ -26,11 +26,11 @@ load_dotenv(override=True)
 
 HOST_PORTS = {
     "Meridian-Router": [(22, "SSH")],
-    "IT-Admin-PC":     [(3389, "RDP")],
-    "Finance-PC":      [(3389, "RDP")],
-    "Ops-PC":          [(3389, "RDP")],
-    "Server":          [(80, "HTTP"), (443, "HTTPS"), (1433, "SQL Server")],
-    "Guest-PC":        [(80, "HTTP")],
+    "IT-Admin-PC": [(3389, "RDP")],
+    "Finance-PC": [(3389, "RDP")],
+    "Ops-PC": [(3389, "RDP")],
+    "Server": [(80, "HTTP"), (443, "HTTPS"), (1433, "SQL Server")],
+    "Guest-PC": [(80, "HTTP")],
 }
 
 
@@ -108,14 +108,8 @@ def log_result(conn, host_id: int, is_online: bool,
     conn.commit()
 
 
-def open_incident(conn, host_id: int, incident_prefix: str, description: str):
-    """
-    Create a new incident only if the same unresolved incident does not already exist.
-
-    incident_prefix examples:
-    - HOST DOWN
-    - SERVICE DOWN: SQL Server port 1433
-    """
+def open_host_incident(conn, host_id: int, hostname: str):
+    """Create a host-down incident if one is not already open."""
     cursor = conn.cursor()
 
     cursor.execute(
@@ -123,28 +117,32 @@ def open_incident(conn, host_id: int, incident_prefix: str, description: str):
         SELECT COUNT(*)
         FROM incidents
         WHERE host_id = ?
+          AND incident_type = 'HOST'
           AND resolved_at IS NULL
-          AND description LIKE ?
         """,
-        (host_id, f"{incident_prefix}%")
+        (host_id,)
     )
 
     if cursor.fetchone()[0] == 0:
+        description = f"HOST DOWN: {hostname} is not responding to ping."
+
         cursor.execute(
             """
-            INSERT INTO incidents (host_id, started_at, description)
-            VALUES (?, GETDATE(), ?)
+            INSERT INTO incidents
+                (host_id, incident_type, service_name, port_number,
+                 started_at, description)
+            VALUES
+                (?, 'HOST', NULL, NULL, GETDATE(), ?)
             """,
             (host_id, description)
         )
+
         conn.commit()
-        print(f"  ⚠️  Incident opened: {description}")
+        print(f"  ⚠️  Host incident opened: {hostname}")
 
 
-def resolve_incident(conn, host_id: int, incident_prefix: str, resolution: str):
-    """
-    Resolve an open incident matching the incident prefix.
-    """
+def resolve_host_incident(conn, host_id: int, hostname: str):
+    """Resolve an open host-down incident when the host comes back online."""
     cursor = conn.cursor()
 
     cursor.execute(
@@ -153,50 +151,108 @@ def resolve_incident(conn, host_id: int, incident_prefix: str, resolution: str):
         SET resolved_at = GETDATE(),
             resolution = ?
         WHERE host_id = ?
+          AND incident_type = 'HOST'
           AND resolved_at IS NULL
-          AND description LIKE ?
         """,
-        (resolution, host_id, f"{incident_prefix}%")
+        (
+            f"{hostname} resumed responding to ping. Auto-resolved by monitor.",
+            host_id
+        )
     )
 
     if cursor.rowcount > 0:
         conn.commit()
-        print(f"  ✅  Incident resolved: {incident_prefix}")
+        print(f"  ✅  Host incident resolved: {hostname}")
 
+
+def open_service_incident(conn, host_id: int, hostname: str,
+                          service_name: str, port_number: int):
+    """Create a service-down incident if one is not already open."""
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT COUNT(*)
+        FROM incidents
+        WHERE host_id = ?
+          AND incident_type = 'SERVICE'
+          AND service_name = ?
+          AND port_number = ?
+          AND resolved_at IS NULL
+        """,
+        (host_id, service_name, port_number)
+    )
+
+    if cursor.fetchone()[0] == 0:
+        description = (
+            f"SERVICE DOWN: {service_name} port {port_number} "
+            f"is closed on {hostname}."
+        )
+
+        cursor.execute(
+            """
+            INSERT INTO incidents
+                (host_id, incident_type, service_name, port_number,
+                 started_at, description)
+            VALUES
+                (?, 'SERVICE', ?, ?, GETDATE(), ?)
+            """,
+            (host_id, service_name, port_number, description)
+        )
+
+        conn.commit()
+        print(f"  ⚠️  Service incident opened: {hostname} {service_name}({port_number})")
+
+
+def resolve_service_incident(conn, host_id: int, hostname: str,
+                             service_name: str, port_number: int):
+    """Resolve an open service incident when the port becomes reachable again."""
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        UPDATE incidents
+        SET resolved_at = GETDATE(),
+            resolution = ?
+        WHERE host_id = ?
+          AND incident_type = 'SERVICE'
+          AND service_name = ?
+          AND port_number = ?
+          AND resolved_at IS NULL
+        """,
+        (
+            f"{service_name} port {port_number} on {hostname} is reachable again. "
+            "Auto-resolved by monitor.",
+            host_id,
+            service_name,
+            port_number
+        )
+    )
+
+    if cursor.rowcount > 0:
+        conn.commit()
+        print(f"  ✅  Service incident resolved: {hostname} {service_name}({port_number})")
+
+
+# ─────────────────────────────────────────
+# INCIDENT HANDLING
+# ─────────────────────────────────────────
 
 def handle_host_incident(conn, host_id: int, hostname: str, is_online: bool):
-    """
-    Open or resolve host-level incidents.
-    """
-    incident_prefix = "HOST DOWN"
-    description = f"HOST DOWN: {hostname} is not responding to ping."
-    resolution = "Host resumed responding to ping. Auto-resolved by monitor."
-
-    if not is_online:
-        open_incident(conn, host_id, incident_prefix, description)
+    """Open or resolve host-level incidents."""
+    if is_online:
+        resolve_host_incident(conn, host_id, hostname)
     else:
-        resolve_incident(conn, host_id, incident_prefix, resolution)
+        open_host_incident(conn, host_id, hostname)
 
 
 def handle_service_incident(conn, host_id: int, hostname: str,
-                            service: str, port: int, is_open: bool):
-    """
-    Open or resolve service-level incidents.
-    Only runs when the host itself is online.
-    """
-    incident_prefix = f"SERVICE DOWN: {service} port {port}"
-    description = (
-        f"SERVICE DOWN: {service} port {port} is closed on {hostname}."
-    )
-    resolution = (
-        f"{service} port {port} on {hostname} is reachable again. "
-        "Auto-resolved by monitor."
-    )
-
-    if not is_open:
-        open_incident(conn, host_id, incident_prefix, description)
+                            service_name: str, port_number: int, is_open: bool):
+    """Open or resolve service-level incidents."""
+    if is_open:
+        resolve_service_incident(conn, host_id, hostname, service_name, port_number)
     else:
-        resolve_incident(conn, host_id, incident_prefix, resolution)
+        open_service_incident(conn, host_id, hostname, service_name, port_number)
 
 
 # ─────────────────────────────────────────
@@ -215,14 +271,20 @@ def run_monitor(interval_seconds: int = 60):
             cursor = conn.cursor()
 
             cursor.execute(
-                "SELECT host_id, hostname, ip_address FROM hosts WHERE is_active = 1"
+                """
+                SELECT host_id, hostname, ip_address
+                FROM hosts
+                WHERE is_active = 1
+                ORDER BY host_id
+                """
             )
+
             hosts = cursor.fetchall()
 
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"\n[{timestamp}] Checking {len(hosts)} hosts...\n")
             print(f"  {'Hostname':<20} {'IP':<18} {'Ping':<10} {'ms':<8} {'Ports'}")
-            print(f"  {'-'*20} {'-'*18} {'-'*10} {'-'*8} {'-'*35}")
+            print(f"  {'-'*20} {'-'*18} {'-'*10} {'-'*8} {'-'*45}")
 
             for host in hosts:
                 host_id, hostname, ip = host
@@ -232,7 +294,6 @@ def run_monitor(interval_seconds: int = 60):
                 ping_status = "Online" if is_online else "OFFLINE"
                 ms_display = f"{response_ms}ms" if response_ms is not None else "---"
 
-                # Host-level incident handling
                 handle_host_incident(conn, host_id, hostname, is_online)
 
                 # ── TCP Port Checks ────────────────────────
@@ -240,26 +301,26 @@ def run_monitor(interval_seconds: int = 60):
                 port_notes = []
                 ports_to_check = HOST_PORTS.get(hostname, [])
 
-                for port, service in ports_to_check:
+                for port_number, service_name in ports_to_check:
                     # Only check services if the host responds to ping.
                     # If the host is offline, the host-down incident already covers it.
-                    is_open = check_port(ip, port) if is_online else False
+                    is_open = check_port(ip, port_number) if is_online else False
 
                     status = "✅" if is_open else "❌"
-                    port_results.append(f"{service}({port}):{status}")
+                    port_results.append(f"{service_name}({port_number}):{status}")
 
                     if is_online:
                         handle_service_incident(
                             conn,
                             host_id,
                             hostname,
-                            service,
-                            port,
+                            service_name,
+                            port_number,
                             is_open
                         )
 
                         if not is_open:
-                            port_notes.append(f"{service} port {port} closed")
+                            port_notes.append(f"{service_name} port {port_number} closed")
 
                 ports_display = "  ".join(port_results) if port_results else "—"
                 notes = ", ".join(port_notes) if port_notes else None
@@ -269,7 +330,6 @@ def run_monitor(interval_seconds: int = 60):
                     f"{ping_status:<10} {ms_display:<8} {ports_display}"
                 )
 
-                # ── Log monitoring result to SQL Server ─────
                 log_result(conn, host_id, is_online, response_ms, notes)
 
             conn.close()
@@ -287,4 +347,5 @@ def run_monitor(interval_seconds: int = 60):
 if __name__ == "__main__":
     run_monitor(interval_seconds=60)
 ```
+
 
