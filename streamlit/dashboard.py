@@ -1,4 +1,3 @@
-```python
 # ============================================================
 # Meridian Solutions | Network Operations Dashboard
 # File: dashboard.py
@@ -124,7 +123,6 @@ def load_incidents():
     """)
 
 
-```python
 @st.cache_data(ttl=30)
 def load_uptime_history():
     return load_sql("""
@@ -138,8 +136,6 @@ def load_uptime_history():
         FROM dbo.v_response_time_history
         ORDER BY checked_at ASC;
     """)
-```
-
 
 
 # ─────────────────────────────────────────
@@ -363,5 +359,3 @@ st.caption("Dashboard refreshes every 30 seconds. Use the button below to manual
 if st.button("🔄 Refresh Now"):
     st.cache_data.clear()
     st.rerun()
-```
-
