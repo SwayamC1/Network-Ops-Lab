@@ -1,4 +1,3 @@
-```python
 # ============================================================
 # Meridian Solutions | Network Operations Monitor
 # File: monitor.py
@@ -289,21 +288,17 @@ def run_monitor(interval_seconds: int = 60):
             for host in hosts:
                 host_id, hostname, ip = host
 
-                # ── ICMP Ping ──────────────────────────────
                 is_online, response_ms = ping_host(ip)
                 ping_status = "Online" if is_online else "OFFLINE"
                 ms_display = f"{response_ms}ms" if response_ms is not None else "---"
 
                 handle_host_incident(conn, host_id, hostname, is_online)
 
-                # ── TCP Port Checks ────────────────────────
                 port_results = []
                 port_notes = []
                 ports_to_check = HOST_PORTS.get(hostname, [])
 
                 for port_number, service_name in ports_to_check:
-                    # Only check services if the host responds to ping.
-                    # If the host is offline, the host-down incident already covers it.
                     is_open = check_port(ip, port_number) if is_online else False
 
                     status = "✅" if is_open else "❌"
@@ -346,6 +341,5 @@ def run_monitor(interval_seconds: int = 60):
 
 if __name__ == "__main__":
     run_monitor(interval_seconds=60)
-```
 
 
