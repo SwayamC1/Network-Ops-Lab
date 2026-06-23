@@ -419,10 +419,47 @@ Expected generated demo data:
 
 ## Step 11 — Verify Backup and Restore Runbook
 
-Open SSMS and run the full backup section in:
+The SQL Server backup/restore runbook demonstrates a basic database recovery workflow for the `MeridianOps` monitoring database.
 
-```text
+Before running the script, create the backup folder on your computer:
+
+C:\SQLBackups\MeridianOps\
+```
+
+If you want to use a different folder, update this line in `SQL/backup_restore_runbook.sql`:
+
+```sql
+SET @BackupDir = N'C:\SQLBackups\MeridianOps\';
+```
+
+Open SSMS and run:
+
 SQL/backup_restore_runbook.sql
+```
+
+The runbook performs the following steps:
+
+1. Creates a full backup of `MeridianOps`
+2. Creates a differential backup of `MeridianOps`
+3. Verifies both backup files using `RESTORE VERIFYONLY`
+4. Drops any old `MeridianOps_Test` database if it already exists
+5. Restores the full backup into `MeridianOps_Test`
+6. Restores the differential backup into `MeridianOps_Test`
+7. Compares row counts between the live and restored databases
+
+Expected validation result:
+
+
+table_name     live_database_count     restored_database_count     validation_result
+hosts          6                       6                           MATCH
+uptime_log     <count>                 <count>                     MATCH
+incidents      <count>                 <count>                     MATCH
+```
+
+This confirms the backup files can be restored successfully without overwriting the live `MeridianOps` database.
+
+The cleanup section at the bottom of the runbook is commented out by default. Uncomment it only if you want to remove the `MeridianOps_Test` database after validation.
+
 ```
 
 Expected result:
