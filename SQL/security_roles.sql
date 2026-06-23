@@ -92,6 +92,7 @@ GRANT SELECT ON dbo.v_host_uptime TO ReadOnlyUser;
 GRANT SELECT ON dbo.v_current_status TO ReadOnlyUser;
 GRANT SELECT ON dbo.v_open_incidents TO ReadOnlyUser;
 GRANT SELECT ON dbo.v_incident_history TO ReadOnlyUser;
+GRANT SELECT ON dbo.v_response_time_history TO ReadOnlyUser;
 GO
 
 -- ============================================================
