@@ -1,4 +1,3 @@
-```sql
 -- ============================================================
 -- Meridian Solutions | Network Operations Database
 -- File: schema.sql
@@ -242,7 +241,7 @@ FROM dbo.incidents i
 JOIN dbo.hosts h
     ON h.host_id = i.host_id;
 GO
-```sql
+
 CREATE OR ALTER VIEW dbo.v_response_time_history AS
 SELECT
     h.hostname,
@@ -255,7 +254,6 @@ FROM dbo.uptime_log u
 JOIN dbo.hosts h
     ON h.host_id = u.host_id;
 GO
-```
 
 -- ============================================================
 -- SEED DATA
@@ -306,4 +304,3 @@ GO
 SELECT * FROM dbo.hosts;
 SELECT * FROM dbo.v_open_incidents;
 GO
-```
